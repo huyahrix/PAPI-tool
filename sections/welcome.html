@@ -1,32 +1,71 @@
 <template class="section-template">
-<section id="welcome" class="wrapper style1 fullscreen intro">
-  <div class="inner">
-    <!-- <h1>Electron tutorial app</h1>
-    <p>Hopefully this helps someone to get up to speed with electron.</p>
-    <ul class="actions">
-      <li><a href="#one" id="learn-more-button" class="button scrolly">Learn more</a></li>
-    </ul> -->
-    <form name="myform" method="post">
-      <table>
-        <tr>
-          <td><label id="filter1" name="lbl" class="lbl-1">SQL String </label>
-          </td>
-        </tr>
-        <tr>
-          <td><input type="text" value="" id="filter1" name="filter1" class="filter-1">
-          <td>
-        </tr>
-        <tr>
-          <td><input type="text" value="" id="filter2" name="filter2" class="filter-2"></td>
-        </tr>
-        <tr>
-          <td>
-            <li><a href="#" id="open-secondwindow-button" class="button">process</a></li>
-          </td>
-          <!-- <td><button id="filter_btn" class="btn btn-warning filterit">FILTER</button></td> -->
-        </tr>
-      </table>
-    </form>
-  </div>
-</section>
+  <section id="welcome" class="wrapper style1">
+    <div class="inner">
+      <div>
+        <h2 style="display:inline-block;">node-mssql</h2>
+        <ul style="display:block; margin: 0; padding: 0; float: right;" class="actions">
+          <li><a href="#" id="paste-sample-button" class="button">Paste Sample</a></li>
+        </ul>
+      </div>
+      <textarea id="query" cols="40" rows="5" placeholder="query" style="margin-bottom: 10px; font-size: 14px;"></textarea>
+      <textarea id="params" cols="40" rows="7" placeholder="params" style="margin-bottom: 10px; font-size: 14px;"></textarea>
+      <ul class="actions" style="padding-left: 0;">
+        <li><a href=" #" id="process-button" class="button">Process</a></li>
+      </ul>
+      <p id="result" style="display: none;"></p>
+    </div>
+  </section>
 </template>
+<script>
+  window.onload = function () {
+    document.getElementById("process-button").onclick = function () { process() };
+    document.getElementById("paste-sample-button").onclick = function () { sample() };
+    function process() {
+      const query = document.getElementById("query").value;
+      const params = document.getElementById("params").value;
+      alert(query + params);
+      alert(typeof(params));
+      let JSparams;
+      try {
+        JSparams = JSON.parse(params);
+    } catch (e) {
+        if (e) {
+          alert(e);
+        }
+    }
+    alert(JSparams);
+
+
+
+
+      document.getElementById("result").textContent = 'result';
+      document.getElementById("result").style.display = "inline";
+    }
+    function sample() {
+      document.getElementById("query").value = `\
+EXEC W75P2112 @DivisionID, @UserID, @HostID, @TransID, @EmployeeID, @LeaveDateFrom, @LeaveDateTo, @LeaveTypeID, @Quantity, @Mode,@Reason, \
+@IsRegisterType, @FormID, @1stAbsDayQuan, @LastAbsDayQuan, @ReasonCancel
+DELETE FROM D91T1010 WHERE KeyID = '15RL0Y700000315' And TableName = 'D15T2030_WebHR' AND DivisionID = 'QT'
+      `;
+      document.getElementById("params").value = `\
+[{ key: 'DivisionID', type: 'VARCHAR', value: 'QT' },
+{ key: 'UserID', type: 'VARCHAR', value: '00150' },
+{ key: 'HostID', type: 'VARCHAR', value: '' },
+{ key: 'TransID', type: 'VARCHAR', value: '15RL0Y700000314' },
+{ key: 'EmployeeID', type: 'VARCHAR', value: '04050' },
+{ key: 'LeaveDateFrom', type: 'VARCHAR', value: '2020-04-16' },
+{ key: 'LeaveDateTo', type: 'VARCHAR', value: '2020-04-18' },
+{ key: 'LeaveTypeID', type: 'VARCHAR', value: 'L020' },
+{ key: 'Quantity', type: 'DECIMAL', value: 2.5 },
+{ key: 'Mode', type: 'INT', value: 0 },
+{ key: 'Reason', type: 'NVARCHAR', value: '' },
+{ key: 'IsRegisterType', type: 'TINYINT', value: 0 },
+{ key: 'FormID', type: 'VARCHAR', value: 'W75F2000' },
+{ key: '1stAbsDayQuan', type: 'DECIMAL28', value: 0.5 },
+{ key: 'LastAbsDayQuan', type: 'DECIMAL28', value: 1 },
+{ key: 'ReasonCancel', type: 'VARCHAR', value: '' } ]`;
+    }
+
+
+  };
+</script>

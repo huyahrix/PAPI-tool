@@ -1,95 +1,63 @@
 <!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
-	<head>
-		<title>Electron tutorial app</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="assets/css/eta-app.css" />
-    <link rel="import" href="sections/getintouch.html">
-    <link rel="import" href="sections/welcome.html">
-    <link rel="import" href="sections/dialog.html">
-    <link rel="import" href="sections/ipcremote.html">
-	</head>
-	<body>
 
-		<!-- Sidebar -->
-			<section id="sidebar">
-				<div class="inner">
-					<nav>
-						<ul>
-							<li><a id="welcome-menu" data-section="welcome" href="#">Welcome</a></li>
-							<li><a id="whoweare-menu" data-section="ipcremote" href="#">IPC/Remote</a></li>
-							<li><a id="dialog-menu" data-section="dialog" href="#">Dialog</a></li>
-							<li><a id="getintouch-menu" data-section="getintouch" href="#">Get in touch</a></li>
-						</ul>
-					</nav>
-					<!-- <<div class="version-info">
+<head>
+	<title>PAPI Tool</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/eta-app.css" />
+	<link rel="import" href="sections/getintouch.html">
+	<link rel="import" href="sections/welcome.html">
+	<link rel="import" href="sections/dialog.html">
+	<link rel="import" href="sections/ipcremote.html">
+</head>
+
+<body>
+	<!-- Sidebar -->
+	<section id="sidebar">
+		<div class="inner">
+			<nav>
+				<ul>
+					<li><a id="welcome-menu" data-section="welcome" href="#">node-mssql</a></li>
+					<li><a id="whoweare-menu" data-section="ipcremote" href="#">IPC/Remote</a></li>
+					<li><a id="dialog-menu" data-section="dialog" href="#">Dialog</a></li>
+					<li><a id="getintouch-menu" data-section="getintouch" href="#">Get in touch</a></li>
+				</ul>
+			</nav>
+			<!-- <<div class="version-info">
 						Tested with Electron v5.0.8
 					</div>> -->
-					<div class="version-info">
-						(Currently running Electron v<script>document.write(process.versions.electron)</script>)
-					</div>
-				</div>
-			</section>
-
-		<!-- Wrapper -->
-			<div id="wrapper">
+			<div class="version-info">
+				(Currently running Electron v
+				<script>document.write(process.versions.electron)</script>)
 			</div>
-
-		<!-- Footer -->
-			<!-- <footer id="footer" class="wrapper style1-alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</div>
-			</footer> -->
-			<form name="myform" method="post">
-				<table class="pop-table">
-					<tr>
-						<td><label id="filter1" name="lbl" class="lbl-1">SQL String </label>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="text" value="" id="filter1" name="filter1" class="filter-1">
-						<td>
-					</tr>
-					<tr>
-						<td><input type="text" value="" id="filter2" name="filter2" class="filter-2"></td>
-					</tr>
-					<tr>
-						<td>
-							<li><a href="#" id="open-secondwindow-button" class="button">process</a></li>
-						</td>
-						<!-- <td><button id="filter_btn" class="btn btn-warning filterit">FILTER</button></td> -->
-					</tr>
-				</table>
-			</form>
-
-		<!-- Scripts -->
-      <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
-			<script>window.i18n = new(require('./translations/i18n'));</script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-      <script>
-        require('./assets/js/menu')
-				require('./assets/js/translations')
-				require('./assets/js/ipc')
-				require('./assets/js/dialog')
-		$(".filterit").click(function(event){
-			event.preventDefault();
-			alert($(this).closest('table').find('.filter-1').val() + $(this).closest('table').find('.filter-2').val()); // for first text box
-			//alert($(this).closest('table').find('.filter-2').val()); // for second
-			});
+		</div>
+	</section>
+	<!-- Wrapper -->
+	<div id="wrapper">
+	</div>
+	<!-- Footer -->
+	<footer id="footer" class="wrapper style1-alt">
+		<div class="inner">
+			<ul class="menu">
+				<li>&copy;</li>
+				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div>
+	</footer>
+	<script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
+	<script>window.i18n = new (require('./translations/i18n'));</script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script>
+		require('./assets/js/menu')
+		require('./assets/js/translations')
+		require('./assets/js/ipc')
+		require('./assets/js/dialog')
 		window.onkeydown = evt => {
 			switch (evt.keyCode) {
 				//ESC
@@ -97,13 +65,15 @@
 					break;
 				//F1
 				case 123:
-					alert('F12');
+					const currentWebContents = require("electron").remote.getCurrentWebContents();
+					currentWebContents.toggleDevTools();
 					break;
 				default:
 					return true;
 			}
 			return false;
 		};
-      </script>
-	</body>
+	</script>
+</body>
+
 </html>
