@@ -17,27 +17,50 @@
   </section>
 </template>
 <script>
+  const _ = require('underscore');
   window.onload = function () {
     document.getElementById("process-button").onclick = function () { process() };
     document.getElementById("paste-sample-button").onclick = function () { sample() };
     function process() {
-      const query = document.getElementById("query").value;
+      let query = document.getElementById("query").value;
       const params = document.getElementById("params").value;
-      alert(query + params);
-      alert(typeof(params));
-      let JSparams;
+      let objParams;
       try {
-        JSparams = JSON.parse(params);
-    } catch (e) {
+        const dJSON = require('dirty-json');
+        objParams = dJSON.parse(params)
+        console.log(JSON.stringify(objParams));
+      } catch (e) {
         if (e) {
           alert(e);
         }
-    }
-    alert(JSparams);
-
-
-
-
+      }
+      alert(JSON.stringify(objParams));
+      for (const item of objParams) {
+        //alert(item.type);
+        let value = item.value ? item.value : '';
+        switch (item.type) {
+          case 'DATETIME':
+              const formatDate = DateTime.formatToDate(value) ? DateTime.formatToDate(value) : '';
+              if (formatDate) {
+                  value = `'${formatDate}'`;
+              } else {
+                  return {code: 'MSQ006',    message: 'The input datetime is required.'};
+              }
+              break;
+          case 'VARCHAR':
+              value = `'${value}'`;
+              break;
+          case 'NVARCHAR':
+              value = `N'${value}'`;
+              break;
+          default:
+              value = `${value}`;
+              break;
+      }
+        query = query.split('@' + item.key).join(value);
+        //alert(query);
+      }
+      alert(query);
       document.getElementById("result").textContent = 'result';
       document.getElementById("result").style.display = "inline";
     }
@@ -64,7 +87,7 @@ DELETE FROM D91T1010 WHERE KeyID = '15RL0Y700000315' And TableName = 'D15T2030_W
 { key: '1stAbsDayQuan', type: 'DECIMAL28', value: 0.5 },
 { key: 'LastAbsDayQuan', type: 'DECIMAL28', value: 1 },
 { key: 'ReasonCancel', type: 'VARCHAR', value: '' } ]`;
-    }
+    };
 
 
   };
