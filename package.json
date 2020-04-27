@@ -1,11 +1,11 @@
 {
-  "name": "sql-test",
-  "productName": "sql-test",
+  "name": "PAPI tool",
+  "productName": "PAPI tool",
   "description": "",
   "version": "1.0.0",
   "main": "main.js",
   "license": "MIT",
-  "author": "Christian Engvall",
+  "author": "",
   "devDependencies": {
     "electron": "^5.0.8",
     "electron-installer-dmg": "^3.0.0",
