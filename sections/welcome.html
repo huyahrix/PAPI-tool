@@ -1,87 +1,99 @@
+<style>
+  .scroll::-webkit-scrollbar {
+    display: none;
+  }
+</style>
 <template class="section-template">
   <section id="welcome" class="wrapper style1">
-    <div class="inner">
+    <div class="inner" style="padding-top: 25px;">
       <div>
         <h2 style="display:inline-block;">node-mssql</h2>
         <ul style="display:block; margin: 0; padding: 0; float: right;" class="actions">
           <li><a href="#" id="paste-sample-button" class="button">Paste Sample</a></li>
         </ul>
       </div>
-      <textarea id="query" cols="40" rows="5" placeholder="query"
-        style="margin-bottom: 10px; font-size: 14px;"></textarea>
-      <textarea id="params" cols="40" rows="7" placeholder="params"
-        style="margin-bottom: 10px; font-size: 14px;"></textarea>
+      <textarea class="scroll" id="query" cols="40" rows="5" placeholder="query"
+        style="margin-bottom: 10px; font-size: 12px; border: 0px;"></textarea>
+      <textarea class="scroll" id="params" cols="40" rows="7" placeholder="params"
+        style="margin-bottom: 10px; font-size: 12px; border: 0px;"></textarea>
       <div>
-        <ul class="actions" style="padding-left: 0; display:inline-block;">
+        <ul class="actions" style="padding-left: 0; display:inline-block; margin-bottom: 10px;">
           <li><a href=" #" id="process-button" class="button">Process</a></li>
         </ul>
-        <ul class="actions" style="display:inline-block;">
+        <ul class="actions" style="display:inline-block; margin-bottom: 10px;">
           <li><a href="#" id="open-copied-window" class="button">Coppy</a></li>
         </ul>
       </div>
-      <p id="result" style="display: none;"></p>
+      <textarea class="scroll"  id="result" oninput="auto_grow(this)" readonly="readonly" unselectable="on" 
+                style="display: none; margin-bottom: 10px; font-size: 12px; border: 0px; min-height: 100px; overflow:auto;">
+      </textarea>
     </div>
   </section>
 </template>
 <script>
   const _ = require('underscore');
+  let query = '';
   window.onload = function () {
     document.getElementById("process-button").onclick = function () { process() };
     document.getElementById("paste-sample-button").onclick = function () { sample() };
-    function process() {
-      let query = document.getElementById("query").value;
-      const params = document.getElementById("params").value;
-      let objParams;
-      try {
-        const dJSON = require('dirty-json');
-        objParams = dJSON.parse(params)
-        console.log(JSON.stringify(objParams));
-      } catch (e) {
-        if (e) {
-          alert(e);
-        }
+    document.getElementById("open-copied-window").onclick = function () { coppy() };
+  };
+  function process() {
+    query = document.getElementById("query").value;
+    const params = document.getElementById("params").value;
+    let objParams = {};
+    try {
+      const dJSON = require('dirty-json');
+      objParams = dJSON.parse(params)
+      console.log(JSON.stringify(objParams));
+    } catch (e) {
+      if (e) {
+        alert(e);
       }
-      for (const item of objParams) {
-        let value = item.value ? item.value : '';
-        switch (item.type) {
-          case 'DATETIME':
-            const formatDate = DateTime.formatToDate(value) ? DateTime.formatToDate(value) : '';
-            if (formatDate) {
-              value = `'${formatDate}'`;
-            } else {
-              return { code: 'MSQ006', message: 'The input datetime is required.' };
-            }
-            break;
-          case 'VARCHAR':
-            value = `'${value}'`;
-            break;
-          case 'NVARCHAR':
-            value = `N'${value}'`;
-            break;
-          default:
-            value = `${value}`;
-            break;
-        }
-        let regex = new RegExp(`(?:^|\\W)@${item.key}(?:$|\\W)`, "g");
-        //console.log(regex);
-        query = query.split(regex).join(value);
-        //query = query.split(/(?:^|\W)@Reason(?:$|\W)/g).join(value);
-      }
-      const { clipboard } = require('electron');
-      clipboard.writeText(query, 'selection');
-      console.log(clipboard.readText('query'));
-
-      document.getElementById("result").textContent = query;
-      //document.getElementById("result").value = query;
-      document.getElementById("result").style.display = "inline";
     }
-    function sample() {
-      document.getElementById("query").value = `\
-EXEC W75P2112 @DivisionID, @UserID, @HostID, @TransID, @EmployeeID, @LeaveDateFrom, @LeaveDateTo, @LeaveTypeID, @Quantity, @Mode, @Reason , \
-@IsRegisterType, @FormID, @1stAbsDayQuan, @LastAbsDayQuan, @ReasonCancel 
+    for (const item of objParams) {
+      let value = null;
+      switch (item.type) {
+        case 'DATETIME':
+          const formatDate = DateTime.formatToDate(value) ? DateTime.formatToDate(value) : '';
+          if (formatDate) {
+            value = `'${formatDate}'`;
+          } else {
+            return { code: 'MSQ006', message: 'The input datetime is required.' };
+          }
+          break;
+        case 'VARCHAR':
+          value = item.value ? item.value : '';
+          value = `'${value}'`;
+          break;
+        case 'NVARCHAR':
+          value = item.value ? item.value : '';
+          value = `N'${value}'`;
+          break;
+        default:
+          value = item.value;
+          break;
+        //case 'INT':
+        //value = item.value ? parseInt(item.value) : 0;
+        //break;
+        //case 'DECIMAL28':
+        //value = item.value ? parseFloat(item.value) : 0;
+        //break;
+      }
+      let regex = new RegExp(`(?:^|)@${item.key ? item.key : item.name}\\b`, "g");
+      query = query.trim().split(regex).join(value);
+      //query = query.split(/(?:^|\W)@Reason(?:$|\W)/g).join(value);
+    }
+    query = 'begin tran \n' + query + '\nrollback tran';
+    document.getElementById("result").textContent = query;
+    document.getElementById("result").style.display = "inline";
+  }
+  function sample() {
+    document.getElementById("query").value = `\
+EXEC W75P2112 @DivisionID, @UserID, @HostID, @TransID, @EmployeeID, @LeaveDateFrom, @LeaveDateTo, @LeaveTypeID, @Quantity, @Mode, @Reason, @IsRegisterType, @FormID, @1stAbsDayQuan, @LastAbsDayQuan, @ReasonCancel 
 DELETE FROM D91T1010 WHERE KeyID = '15RL0Y700000315' And TableName = 'D15T2030_WebHR' AND DivisionID = 'QT'
       `;
-      document.getElementById("params").value = `\
+    document.getElementById("params").value = `\
 [{ key: 'DivisionID', type: 'VARCHAR', value: 'QT' },
 { key: 'UserID', type: 'VARCHAR', value: '00150' },
 { key: 'HostID', type: 'VARCHAR', value: '' },
@@ -98,6 +110,14 @@ DELETE FROM D91T1010 WHERE KeyID = '15RL0Y700000315' And TableName = 'D15T2030_W
 { key: '1stAbsDayQuan', type: 'DECIMAL28', value: 0.5 },
 { key: 'LastAbsDayQuan', type: 'DECIMAL28', value: 1 },
 { key: 'ReasonCancel', type: 'VARCHAR', value: '' } ]`;
-    };
   };
+  function coppy() {
+    const { clipboard } = require('electron');
+    clipboard.writeText(query, 'selection');
+    console.log(clipboard.readText('query'));
+  }
+  function auto_grow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight)+"px";
+}
 </script>

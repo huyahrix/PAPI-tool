@@ -11,9 +11,14 @@
 	<link rel="import" href="sections/welcome.html">
 	<link rel="import" href="sections/dialog.html">
 	<link rel="import" href="sections/ipcremote.html">
+	<style>
+		.scroll::-webkit-scrollbar {
+		  display: none;
+		}
+	</style>
 </head>
 
-<body>
+<body class="scroll">
 	<!-- Sidebar -->
 	<section id="sidebar">
 		<div class="inner">
@@ -28,10 +33,10 @@
 			<!-- <<div class="version-info">
 						Tested with Electron v5.0.8
 					</div>> -->
-			<div class="version-info">
+			<!-- <div class="version-info">
 				(Currently running Electron v
 				<script>document.write(process.versions.electron)</script>)
-			</div>
+			</div> -->
 		</div>
 	</section>
 	<!-- Wrapper -->
