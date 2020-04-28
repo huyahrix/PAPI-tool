@@ -72,6 +72,22 @@ function createWindow () {
 
   secondWindow.loadURL(`file://${__dirname}/windows/ipcwindow.html`)
 
+  copied = new BrowserWindow({frame: false,
+    width: 800,
+    height: 600,
+    minWidth: 800,
+    minHeight: 600,
+    backgroundColor: '#312450',
+    show: false,
+    icon: path.join(__dirname, 'assets/icons/png/64x64.png'),
+    parent: mainWindow,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  })
+
+  copied.loadURL(`file://${__dirname}/windows/copied.html`)
+
   require('./menu/mainmenu')
 }
 
@@ -81,6 +97,14 @@ ipcMain.on('open-second-window', (event, arg)=> {
 
 ipcMain.on('close-second-window', (event, arg)=> {
     secondWindow.hide()
+})
+
+ipcMain.on('open-copied-window', (event, arg) => {
+  copied.show()
+})
+
+ipcMain.on('close-copied-window', (event, arg) => {
+  copied.hide()
 })
 
 // This method will be called when Electron has finished

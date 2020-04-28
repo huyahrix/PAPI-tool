@@ -11,9 +11,14 @@
         style="margin-bottom: 10px; font-size: 14px;"></textarea>
       <textarea id="params" cols="40" rows="7" placeholder="params"
         style="margin-bottom: 10px; font-size: 14px;"></textarea>
-      <ul class="actions" style="padding-left: 0;">
-        <li><a href=" #" id="process-button" class="button">Process</a></li>
-      </ul>
+      <div>
+        <ul class="actions" style="padding-left: 0; display:inline-block;">
+          <li><a href=" #" id="process-button" class="button">Process</a></li>
+        </ul>
+        <ul class="actions" style="display:inline-block;">
+          <li><a href="#" id="open-copied-window" class="button">Coppy</a></li>
+        </ul>
+      </div>
       <p id="result" style="display: none;"></p>
     </div>
   </section>
@@ -36,17 +41,7 @@
           alert(e);
         }
       }
-      //alert(JSON.stringify(objParams));
-      var stringToGoIntoTheRegex = "abc";
-      var regex = new RegExp("#" + stringToGoIntoTheRegex + "#", "g");
-      // at this point, the line above is the same as: var regex = /#abc#/g;
-
-      var input = "Hello this is #abc# some #abc# stuff.";
-      var output = input.replace(regex, "!!");
-      alert(output); // 
-
       for (const item of objParams) {
-        //alert(item.type);
         let value = item.value ? item.value : '';
         switch (item.type) {
           case 'DATETIME':
@@ -67,30 +62,23 @@
             value = `${value}`;
             break;
         }
-        // if(item.key == 'LastAbsDayQuan'){
-        //   alert(JSON.stringify(item));
-        //   alert(query);
-        // }
-        //alert(item.key)
-        //const regex = new RegExp(`(?:^|\W)@${item.key}}(?:$|\W)`);
-        //let regex123 = new RegExp("(?:^|\W)" + "@Reason" + "(?:$|\W)", "g");
-        var regex = new RegExp("\\(?:^|\W)"+"@Reason"+"", "g");
-        //alert(regex);
-        //query = query.split(regex).join(value);
-        query = query.replace(regex, '123');
+        let regex = new RegExp(`(?:^|\\W)@${item.key}(?:$|\\W)`, "g");
+        //console.log(regex);
+        query = query.split(regex).join(value);
         //query = query.split(/(?:^|\W)@Reason(?:$|\W)/g).join(value);
-        //query = query.split(/(?:^|\W)@Reason(?:$|\W)/g).join(value);
-        //alert(regex.replace('key',item.key));
-        //query = query.split(regex.replace('key',item.key)).join(value);
       }
-      alert(query);
-      document.getElementById("result").textContent = 'result';
+      const { clipboard } = require('electron');
+      clipboard.writeText(query, 'selection');
+      console.log(clipboard.readText('query'));
+
+      document.getElementById("result").textContent = query;
+      //document.getElementById("result").value = query;
       document.getElementById("result").style.display = "inline";
     }
     function sample() {
       document.getElementById("query").value = `\
 EXEC W75P2112 @DivisionID, @UserID, @HostID, @TransID, @EmployeeID, @LeaveDateFrom, @LeaveDateTo, @LeaveTypeID, @Quantity, @Mode, @Reason , \
-@IsRegisterType, @FormID, @1stAbsDayQuan, @LastAbsDayQuan, @ReasonCancel
+@IsRegisterType, @FormID, @1stAbsDayQuan, @LastAbsDayQuan, @ReasonCancel 
 DELETE FROM D91T1010 WHERE KeyID = '15RL0Y700000315' And TableName = 'D15T2030_WebHR' AND DivisionID = 'QT'
       `;
       document.getElementById("params").value = `\

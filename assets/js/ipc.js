@@ -12,6 +12,14 @@ function(n) {
         ipcRenderer.send('close-second-window', 'an-argument')
       },
 
+      sendOpenCopiedWindowEvent: function() {
+        ipcRenderer.send('open-copied-window', 'an-argument')
+      },
+
+      sendCloseCopiedWindowEvent: function() {
+        ipcRenderer.send('close-copied-window', 'an-argument')
+      },
+
       init: function() {
         $('#open-secondwindow-button').click( function () {
           ipc.messaging.sendOpenSecondWindowEvent()
@@ -19,6 +27,15 @@ function(n) {
 
         $('#close-me-button').click( function () {
           ipc.messaging.sendCloseSecondWindowEvent()
+        })
+
+        $('#open-copied-window').click( function () {
+          ipc.messaging.sendOpenCopiedWindowEvent()
+        })
+
+        $('#close-copied-window').click( function () {
+          console.log('what  ttt');
+          ipc.messaging.sendCloseCopiedWindowEvent()
         })
 
       }
