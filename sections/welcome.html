@@ -53,14 +53,14 @@
     for (const item of objParams) {
       let value = null;
       switch (item.type) {
-        case 'DATETIME':
+        /*case 'DATETIME':
           const formatDate = DateTime.formatToDate(value) ? DateTime.formatToDate(value) : '';
           if (formatDate) {
             value = `'${formatDate}'`;
           } else {
             return { code: 'MSQ006', message: 'The input datetime is required.' };
           }
-          break;
+          break;*/
         case 'VARCHAR':
           value = item.value ? item.value : '';
           value = `'${value}'`;
@@ -69,15 +69,15 @@
           value = item.value ? item.value : '';
           value = `N'${value}'`;
           break;
+          /*case 'INT':
+          value = item.value ? parseInt(item.value) : 0;
+          break;
+          case 'DECIMAL28':
+          value = item.value ? parseFloat(item.value) : 0;
+          break;*/
         default:
           value = item.value;
           break;
-        //case 'INT':
-        //value = item.value ? parseInt(item.value) : 0;
-        //break;
-        //case 'DECIMAL28':
-        //value = item.value ? parseFloat(item.value) : 0;
-        //break;
       }
       let regex = new RegExp(`(?:^|)@${item.key ? item.key : item.name}\\b`, "g");
       query = query.trim().split(regex).join(value);
