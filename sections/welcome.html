@@ -34,10 +34,17 @@
   const _ = require('underscore');
   let query = '';
   window.onload = function () {
-    document.getElementById("process-button").onclick = function () { process() };
-    document.getElementById("paste-sample-button").onclick = function () { sample() };
-    document.getElementById("open-copied-window").onclick = function () { coppy() };
+    document.getElementById("process-button").onclick = function () {
+      process()
+    };
+    document.getElementById("paste-sample-button").onclick = function () {
+      sample()
+    };
+    document.getElementById("open-copied-window").onclick = function () {
+      coppy()
+    };
   };
+
   function process() {
     query = document.getElementById("query").value;
     const params = document.getElementById("params").value;
@@ -62,8 +69,13 @@
           }
           break;*/
         case 'VARCHAR':
-          value = item.value ? item.value : '';
-          value = `'${value}'`;
+          value = item.value ? item.value : item.value == null ? null : '';
+          if (value == null) {
+            value = `${value}`;
+          } else {
+            value = `'${value}'`;
+          }
+          //value = value == null ? `${value}` : `'${value}'`;
           break;
         case 'NVARCHAR':
           value = item.value ? item.value : '';
@@ -87,6 +99,7 @@
     document.getElementById("result").textContent = query;
     document.getElementById("result").style.display = "inline-block";
   }
+
   function sample() {
     document.getElementById("result").textContent = '';
     const arraySample = addSample();
@@ -94,14 +107,19 @@
     document.getElementById("query").value = sample.query;
     document.getElementById("params").value = sample.params;
   };
+
   function coppy() {
-    const { clipboard } = require('electron');
+    const {
+      clipboard
+    } = require('electron');
     clipboard.writeText(query, 'selection');
   }
+
   function auto_grow(element) {
     element.style.height = "5px";
     element.style.height = (element.scrollHeight) + "px";
   }
+
   function addSample() {
     let arraySample = [];
     arraySample.push({
@@ -124,10 +142,12 @@ DELETE FROM D91T1010 WHERE KeyID = '15RL0Y700000315' And TableName = 'D15T2030_W
 { key: 'FormID', type: 'VARCHAR', value: 'W75F2000' },
 { key: '1stAbsDayQuan', type: 'DECIMAL28', value: 0.5 },
 { key: 'LastAbsDayQuan', type: 'DECIMAL28', value: 1 },
-{ key: 'ReasonCancel', type: 'VARCHAR', value: '' } ]`});
+{ key: 'ReasonCancel', type: 'VARCHAR', value: '' } ]`
+    });
     arraySample.push({
       query: `EXEC W75P2005 @UserID, @HostID, @EmployeeID, @AppStatusID, @TimeID, @Language, @Skip, @Limit`,
-      params: `\[{"name":"EmployeeID","type":"VARCHAR","value":""},{"name":"HostID","type":"VARCHAR","value":""},{"name":"AppStatusID","type":"VARCHAR","value":""},{"name":"TimeID","type":"VARCHAR","value":"0"},{"name":"UserID","type":"VARCHAR","value":"00142"},{"name":"Language","type":"VARCHAR","value":"84"},{"name":"Skip","type":"VARCHAR","value":"0"},{"name":"Limit","type":"VARCHAR","value":"10"}]`});
+      params: `\[{"name":"EmployeeID","type":"VARCHAR","value":""},{"name":"HostID","type":"VARCHAR","value":""},{"name":"AppStatusID","type":"VARCHAR","value":""},{"name":"TimeID","type":"VARCHAR","value":"0"},{"name":"UserID","type":"VARCHAR","value":"00142"},{"name":"Language","type":"VARCHAR","value":"84"},{"name":"Skip","type":"VARCHAR","value":"0"},{"name":"Limit","type":"VARCHAR","value":"10"}]`
+    });
     arraySample.push({
       query: `EXEC W75P2112 @DivisionID, @UserID, @HostID, @TransID, @EmployeeID, @LeaveDateFrom, @LeaveDateTo, @LeaveTypeID, @Quantity, @Mode, @Reason, @IsRegisterType, @FormID, @1stAbsDayQuan, @LastAbsDayQuan, @ReasonCancel
 DELETE FROM D91T1010 WHERE KeyID = @KeyID And TableName = @TableName AND DivisionID = @DivisionID
@@ -216,14 +236,15 @@ VALUES
   value: '2020-04-28 16:36:20.141' },
 { key: 'Description1', type: 'VARCHAR', value: 'english123' },
 { key: 'DescriptionU1', type: 'NVARCHAR', value: 'việt nam 123' },
-{ key: 'Key2ID', type: 'VARCHAR', value: '' } ]`});
+{ key: 'Key2ID', type: 'VARCHAR', value: '' } ]`
+    });
 
-arraySample.push({
-  query: `UPDATE   D84T2000
+    arraySample.push({
+      query: `UPDATE   D84T2000
 SET     ApprovalNotesU = @ApprovalNotesU, ApprovalStatus = @ApprovalStatus, ApprovalDate = @ApprovalDate
 WHERE   VoucherID = @VoucherID AND ApprovalLevel = @ApprovalLevel AND ApprovalFlowID = @ApprovalFlowID
 EXEC W84P3020 @FormID, @UserID, @VoucherID, @ApprovalLevel, @ApprovalFlowID, @sp_ApprovalStatus, @Mode`,
-  params: `[ { key: 'ApprovalNotesU', type: 'NVARCHAR', value: 'Duyệt cấp 1' },
+      params: `[ { key: 'ApprovalNotesU', type: 'NVARCHAR', value: 'Duyệt cấp 1' },
 { key: 'ApprovalStatus', type: 'INT', value: 1 },
 { key: 'ApprovalDate',
   type: 'VARCHAR',
@@ -241,9 +262,10 @@ EXEC W84P3020 @FormID, @UserID, @VoucherID, @ApprovalLevel, @ApprovalFlowID, @sp
 { key: 'ApprovalLevel', type: 'INT', value: 1 },
 { key: 'ApprovalFlowID', type: 'VARCHAR', value: 'APPYCCU' },
 { key: 'sp_ApprovalStatus', type: 'INT', value: 1 },
-{ key: 'Mode', type: 'INT', value: 0 } ]`});
-arraySample.push({
-  query: `INSERT INTO D09T2020
+{ key: 'Mode', type: 'INT', value: 0 } ]`
+    });
+    arraySample.push({
+      query: `INSERT INTO D09T2020
 (
     LeaveTransID,
     EmployeeID,
@@ -294,7 +316,7 @@ VALUES
   @FileExt1, @CreateUserID, @CreateUserID, @CreateDate,
   @LastModifyDate, 1, @Description1, @DescriptionU1, @Key2ID
 ) `,
-  params: `[ { key: 'LeaveTransID',type: 'VARCHAR',value: 'E2C0E947-00E2-44B3-8589-3190E222E104' },
+      params: `[ { key: 'LeaveTransID',type: 'VARCHAR',value: 'E2C0E947-00E2-44B3-8589-3190E222E104' },
 { key: 'EmployeeID', type: 'VARCHAR', value: '00145' },
 { key: 'DateLeft', type: 'VARCHAR', value: '2020-03-22' },
 { key: 'ResignFormID', type: 'VARCHAR', value: '' },
@@ -368,7 +390,8 @@ VALUES
   value: '2020-04-28 17:05:27.442' },
 { key: 'Description1', type: 'VARCHAR', value: 'english123' },
 { key: 'DescriptionU1', type: 'NVARCHAR', value: 'việt nam 123' },
-{ key: 'Key2ID', type: 'VARCHAR', value: '0002' } ]`});
+{ key: 'Key2ID', type: 'VARCHAR', value: '0002' } ]`
+    });
 
     return arraySample;
   }
