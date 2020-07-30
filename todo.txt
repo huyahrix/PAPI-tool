@@ -1,82 +1,17 @@
- INSERT INTO D09T2151
-             (
-                 ProTransID,
-                 EmployeeID,
-                 ProposerID,
-                 ProposalDate,
-                 ProContentU,
-                 ValidDate,
-                 ValidEndDate,
-                 NumMonth,
-                 DisViolationActGroupID,
-                 DisViolationActID,
-                 ProDisRewardLevelID,
-                 ProDisRewardFormID,
-                 ProResponsibility,
-                 ProAuthority,
-                 ProNoticeU,
-                 CreateUserID,
-                 CreateDate,
-                 LastModifyUserID,
-                 LastModifyDate,
-                 ProCoefficient01, ProCoefficient02,   ProCoefficient03, ProCoefficient04,     ProCoefficient05, ProCoefficient06,
-                 ProCoefficient07, ProCoefficient08,   ProCoefficient09, ProCoefficient10,
-                 ProDivisionID,
-                 ProDepartmentID,
-                 ProTeamID,
-                 TransTypeID,
-                 DivisionID,
-                 TranMonth,
-                 TranYear
-             )
-             VALUES
-             (
-                 @ProTransID,
-                 @EmployeeID,
-                 @ProposerID,
-                 @ProposalDate,
-                 @ProContentU,
-                 @ValidDate,
-                 @ValidEndDate,
-                 @NumMonth,
-                 @DisViolationActGroupID,
-                 @DisViolationActID,
-                 @ProDisRewardLevelID,
-                 @ProDisRewardFormID,
-                 @ProResponsibility,
-                 @ProAuthority,
-                 @ProNoticeU,
-                 @CreateUserID,
-                 @CreateDate,
-                 @LastModifyUserID,
-                 @LastModifyDate,
-                 @ProCoefficient01, @ProCoefficient02, @ProCoefficient03, @ProCoefficient04, @ProCoefficient05, @ProCoefficient06,
-                 @ProCoefficient07, @ProCoefficient08, @ProCoefficient09, @ProCoefficient10,
-                 @ProDivisionID,
-                 @ProDepartmentID,
-                 @ProTeamID,
-                 @TransTypeID,
-                 @DivisionID,
-                 @TranMonth,
-                 @TranYear
-             )
- EXEC W84P3005 @ModuleID, @TransTypeIDP3005, @DivisionID, @UserID, @HostID, @Mode,
-                                       @StatusApproval, @ApprovalLevel, @FormID, @VoucherID, @Language, @TransactionID    
- DELETE FROM D91T1010 WHERE KeyID = @KeyID And TableName = @TableName AND DivisionID = @DivisionID
-             INSERT INTO D91T1010
-                     (
-                         DivisionID, KeyID, TableName, AttachmentID,
-                         Sequence, URL, FileName, FileSize,
-                         FileExt, CreateUserID, LastModifyUserID, CreateDate,
-                         LastModifyDate, IsCDN, Description, DescriptionU, Key2ID
-                     )
-                     VALUES
-                 (
-                     @DivisionID, @KeyID, @TableName, @AttachmentID0,
-                     0, @URL0, @FileName0, @FileSize0,
-                     @FileExt0, @CreateUserID, @CreateUserID, @CreateDate,
-                     @LastModifyDate, 1, @Description0, @DescriptionU0, @Key2ID
-                 ) 
- 
- 
- {"ProTransID":{"name":"ProTransID","io":1,"value":"PDD71916CB-3DDD-4C9F"},"EmployeeID":{"name":"EmployeeID","io":1,"value":"MN130113"},"ProposerID":{"name":"ProposerID","io":1,"value":"MN191351"},"ProposalDate":{"name":"ProposalDate","io":1,"value":"2020-06-06 10:52:48.188"},"ProContentU":{"name":"ProContentU","io":1,"value":"nhặc được 1 chiếc điện thoại oppo"},"ValidDate":{"name":"ValidDate","io":1,"value":"2020-06-05"},"ValidEndDate":{"name":"ValidEndDate","io":1,"value":null},"NumMonth":{"name":"NumMonth","io":1,"value":0},"DisViolationActGroupID":{"name":"DisViolationActGroupID","io":1,"value":""},"DisViolationActID":{"name":"DisViolationActID","io":1,"value":""},"ProDisRewardLevelID":{"name":"ProDisRewardLevelID","io":1,"value":"CTY"},"ProDisRewardFormID":{"name":"ProDisRewardFormID","io":1,"value":"02"},"ProResponsibility":{"name":"ProResponsibility","io":1,"value":""},"ProAuthority":{"name":"ProAuthority","io":1,"value":""},"ProNoticeU":{"name":"ProNoticeU","io":1,"value":""},"CreateUserID":{"name":"CreateUserID","io":1,"value":"pan_caliqtd"},"CreateDate":{"name":"CreateDate","io":1,"value":"2020-06-06 10:52:48.188"},"LastModifyUserID":{"name":"LastModifyUserID","io":1,"value":"pan_caliqtd"},"LastModifyDate":{"name":"LastModifyDate","io":1,"value":"2020-06-06 10:52:48.188"},"ProCoefficient01":{"name":"ProCoefficient01","io":1,"value":100000,"scale":8,"precision":28},"ProCoefficient02":{"name":"ProCoefficient02","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient03":{"name":"ProCoefficient03","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient04":{"name":"ProCoefficient04","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient05":{"name":"ProCoefficient05","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient06":{"name":"ProCoefficient06","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient07":{"name":"ProCoefficient07","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient08":{"name":"ProCoefficient08","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient09":{"name":"ProCoefficient09","io":1,"value":0,"scale":8,"precision":28},"ProCoefficient10":{"name":"ProCoefficient10","io":1,"value":0,"scale":8,"precision":28},"ProDivisionID":{"name":"ProDivisionID","io":1,"value":""},"ProDepartmentID":{"name":"ProDepartmentID","io":1,"value":""},"ProTeamID":{"name":"ProTeamID","io":1,"value":""},"TransTypeID":{"name":"TransTypeID","io":1,"value":"0006"},"DivisionID":{"name":"DivisionID","io":1,"value":"PAN"},"TranMonth":{"name":"TranMonth","io":1,"value":6},"TranYear":{"name":"TranYear","io":1,"value":2020},"ModuleID":{"name":"ModuleID","io":1,"value":"D09"},"TransTypeIDP3005":{"name":"TransTypeIDP3005","io":1,"value":"W09F2060"},"UserID":{"name":"UserID","io":1,"value":"pan_caliqtd"},"HostID":{"name":"HostID","io":1,"value":""},"Mode":{"name":"Mode","io":1,"value":0},"StatusApproval":{"name":"StatusApproval","io":1,"value":0},"ApprovalLevel":{"name":"ApprovalLevel","io":1,"value":1},"FormID":{"name":"FormID","io":1,"value":"W09F2060"},"VoucherID":{"name":"VoucherID","io":1,"value":"PDD71916CB-3DDD-4C9F"},"Language":{"name":"Language","io":1,"value":"84"},"TransactionID":{"name":"TransactionID","io":1,"value":"W09DXKT"},"KeyID":{"name":"KeyID","io":1,"value":"PDD71916CB-3DDD-4C9F"},"TableName":{"name":"TableName","io":1,"value":"D09T2151_KT"},"AttachmentID0":{"name":"AttachmentID0","io":1,"value":"ATT00000000000000000000000000000000000000000008531"},"URL0":{"name":"URL0","io":1,"value":"file/c.jpg?path=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaWxlUGF0aCI6Ii8yMDIwLzA2LzUzMGU2MDExLTRmMmUtNGZiOS05OWQ5LThkYTk2MzY2OTM4Yi5qcGciLCJmaWxlTmFtZSI6ImMuanBnIiwiZmlsZVNpemUiOjU5NDQ3NywiZmlsZVR5cGUiOiJpbWFnZS9qcGVnIiwiaWF0IjoxNTkxNDE1NTY2LCJleHAiOjg3OTkxNDE1NTY2fQ.hwABgOs7IGXnIE887WGijn_-L2rCfJc2mpU99LzEJj0"},"FileName0":{"name":"FileName0","io":1,"value":"c.jpg"},"FileSize0":{"name":"FileSize0","io":1,"value":594477},"FileExt0":{"name":"FileExt0","io":1,"value":"jpg"},"Description0":{"name":"Description0","io":1,"value":""},"DescriptionU0":{"name":"DescriptionU0","io":1,"value":""},"Key2ID":{"name":"Key2ID","io":1,"value":""}}
+UPDATE   D84T2000
+SET     ApprovalNotesU = @ApprovalNotesU, ApprovalStatus = @ApprovalStatus, ApprovalDate = @ApprovalDate
+WHERE   VoucherID = @VoucherID AND ApprovalLevel = @ApprovalLevel AND ApprovalFlowID = @ApprovalFlowID
+EXEC W84P3020 @FormID, @UserID, @VoucherID, @ApprovalLevel, @ApprovalFlowID, @sp_ApprovalStatus, @Mode[ { key: 'ApprovalNotesU', type: 'NVARCHAR', value: 'Duyệt cấp 1' },
+
+[{ key: 'ApprovalStatus', type: 'INT', value: 1 },
+{ key: 'ApprovalDate',type: 'VARCHAR',value: null },
+{ key: 'VoucherID',type: 'VARCHAR',value: '71C502AC-9339-46AD-8897-C1F5A2AD832C' },
+{ key: 'ApprovalLevel', type: 'INT', value: 1 },
+{ key: 'ApprovalFlowID', type: 'VARCHAR', value: 'APPYCCU' },
+{ key: 'FormID', type: 'VARCHAR', value: 'W13F1000' },
+{ key: 'UserID', type: 'VARCHAR', value: '00142' },
+{ key: 'VoucherID', type: 'VARCHAR',value: '71C502AC-9339-46AD-8897-C1F5A2AD832C' },
+{ key: 'ApprovalLevel', type: 'INT', value: 1 },
+{ key: 'ApprovalFlowID', type: 'VARCHAR', value: 'APPYCCU' },
+{ key: 'sp_ApprovalStatus', type: 'INT', value: 1 },
+{ key: 'Mode', type: 'INT', value: 0 }]
